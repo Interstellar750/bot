@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"mime/multipart"
@@ -23,7 +24,13 @@ type apiResponse struct {
 	} `json:"parameters,omitempty"`
 }
 
-func (b *Bot) rawRequest(ctx context.Context, method string, params any, dest any) error {
+func (b *Bot) rawRequest(ctx context.Context, method string, params any, dest any) (err error) {
+	defer func() {
+		if err != nil {
+			err = errors.New(strings.ReplaceAll(err.Error(), b.token, "TokenHidden"))
+		}
+	}()
+
 	var httpBody io.Reader = http.NoBody
 	var contentType string
 
