@@ -145,3 +145,10 @@ func WithInitialOffset(offset int64) Option {
 		b.lastUpdateID = offset
 	}
 }
+
+// WithHideBotToken allows to hide bot token from error messages and logs
+func WithHideBotToken() Option {
+	return func(b *Bot) {
+		b.hideBotToken = true
+	}
+}

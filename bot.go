@@ -42,6 +42,7 @@ type Bot struct {
 	testEnvironment    bool
 	workers            int
 	notAsyncHandlers   bool
+	hideBotToken       bool
 
 	defaultHandlerFunc HandlerFunc
 

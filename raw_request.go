@@ -26,7 +26,7 @@ type apiResponse struct {
 
 func (b *Bot) rawRequest(ctx context.Context, method string, params any, dest any) (err error) {
 	defer func() {
-		if err != nil {
+		if b.hideBotToken && err != nil {
 			err = errors.New(strings.ReplaceAll(err.Error(), b.token, "TokenHidden"))
 		}
 	}()
