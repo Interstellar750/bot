@@ -66,6 +66,7 @@ func Test_rawRequest_err_hideToken(t *testing.T) {
 		url:    "failed",
 		token:  "XXX",
 		client: cm,
+		hideBotToken: true,
 	}
 
 	err := b.rawRequest(context.Background(), "foo", nil, nil)
@@ -75,5 +76,23 @@ func Test_rawRequest_err_hideToken(t *testing.T) {
 
 	if strings.Contains(err.Error(), "XXX") {
 		t.Fatalf("unexpected error with token: %s", err.Error())
+	}
+}
+
+func Test_rawRequest_err_not_hideToken(t *testing.T) {
+	cm := &clientMock{}
+	b := &Bot{
+		url:    "failed",
+		token:  "XXX",
+		client: cm,
+	}
+
+	err := b.rawRequest(context.Background(), "foo", nil, nil)
+	if err == nil {
+		t.Fatalf("unexpected nil error")
+	}
+
+	if !strings.Contains(err.Error(), "XXX") {
+		t.Fatalf("unexpected error without token: %s", err.Error())
 	}
 }
